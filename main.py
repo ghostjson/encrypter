@@ -5,6 +5,8 @@ from tkinter import filedialog
 
 from cryptography.fernet import Fernet
 
+import base64
+
 key = ''
 data = ''
 
@@ -55,7 +57,6 @@ def saveKey():
 # load a key from specified file
 @eel.expose
 def loadKey():
-
     global key
 
     window = Tk()
@@ -76,7 +77,6 @@ def loadKey():
 # upload file to encrypt
 @eel.expose
 def upload():
-
     global data
 
     window = Tk()
@@ -87,6 +87,29 @@ def upload():
         with open(filepath, 'rb') as f:
             data = f.read()
             window.destroy()
+
+            # encode in base64
+            data = base64.b64encode(data)
+            return True
+    except FileNotFoundError:
+        window.destroy()
+        return False
+
+
+# upload file to decrypt
+@eel.expose
+def uploadDecrypted():
+    global data
+
+    window = Tk()
+    window.iconify()
+    filepath = filedialog.askopenfilename()
+
+    try:
+        with open(filepath, 'rb') as f:
+            data = f.read()
+            window.destroy()
+
             return True
     except FileNotFoundError:
         window.destroy()
@@ -96,7 +119,6 @@ def upload():
 # Encrypt current file
 @eel.expose
 def encrypted():
-
     global key
     global data
 
@@ -114,6 +136,35 @@ def encrypted():
 
         with open(filepath + '.encrypted', 'wb') as f:
             f.write(_encrypted)
+
+        window.destroy()
+        return True
+    except FileNotFoundError:
+        window.destroy()
+        return False
+
+
+# decrypt file
+@eel.expose
+def decrypted():
+    global key
+    global data
+
+    content = Fernet(key)
+    _decrypted = content.decrypt(data)
+    decoded_data = base64.b64decode(_decrypted.decode())
+
+    try:
+        window = Tk()
+        window.iconify()
+        filepath = filedialog.asksaveasfilename()
+
+        if filepath == '':
+            window.destroy()
+            return False
+
+        with open(filepath, 'wb') as f:
+            f.write(decoded_data)
 
         window.destroy()
         return True

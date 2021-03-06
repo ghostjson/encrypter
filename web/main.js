@@ -3,6 +3,7 @@ const pages = document.getElementsByClassName('page')
 const keyInput = document.getElementById('private_key')
 const logger = document.getElementById('logger')
 const encryptButton = document.getElementById('encryptButton')
+const decryptButton = document.getElementById('decryptButton')
 const pageButtons = document.getElementsByClassName('menu-button')
 let key = '';
 
@@ -67,6 +68,23 @@ async function encrypt(){
     if(status){
         addLog('File is encrypted successfully')
         encryptButton.classList.add('disabled')
+    }
+}
+
+async function uploadDecrypt(){
+    let uploaded = await eel.uploadDecrypted()();
+    if(uploaded){
+        addLog('File is uploaded for encryption, click encrypt to encrypt.')
+
+        decryptButton.classList.remove('disabled')
+    }
+}
+
+async function decrypt(){
+    let status = await eel.decrypted()();
+    if(status){
+        addLog('File is decrypted successfully')
+        decryptButton.classList.add('disabled')
     }
 }
 
