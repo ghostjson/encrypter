@@ -27,10 +27,11 @@ header{
     background: var(--primary-color);
     padding: 10px;
     display: flex;
-    font-family: 'Arial';
+    font-family: 'Arial', serif;
     font-weight: 600;
     height: 40px;
     color: white;
+    font-size: 0.9em;
 }
 
 header div{
@@ -76,4 +77,12 @@ header .active {
 
 .logger li{
     margin-top: 20px;
+}
+
+.disable-select{
+     user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
 }

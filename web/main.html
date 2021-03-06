@@ -6,7 +6,7 @@
     <script src="/eel.js"></script>
 </head>
 <body>
-<header>
+<header class="disable-select">
 
     <div class="menu-button active" id="dashboard-button" onclick="showPage('dashboard')">Dashboard</div>
     <div class="menu-button" id="encrypt-button" onclick="showPage('encrypt')">
@@ -24,9 +24,9 @@
     <div class="container-fluid mt-3">
         <div class="form">
             <div class="form-group">
-                <label>PRIVATE KEY</label>
+                <label class="disable-select">PRIVATE KEY</label>
                 <input id="private_key" class="form-control" disabled>
-                <div class="mt-2">
+                <div class="mt-2 disable-select">
                     <button class="btn btn-sm " onclick="loadKey()">Load</button>
                     <button class="btn btn-sm" onclick="saveKey()">Save</button>
                     <button class="btn btn-sm" onclick="generateKey()">Generate</button>
@@ -41,7 +41,7 @@
     <div class="container-fluid">
         <div class="form row">
             <div class="row mt-2">
-                <h5>Encrypt</h5>
+                <h5 class="disable-select">Encrypt</h5>
                 <div>
                     <button class="btn btn-sm" onclick="upload()">Upload</button>
                     <button class="btn btn-sm disabled" id="encryptButton" onclick="encrypt()">Encrypt</button>
@@ -58,7 +58,7 @@
 
 <div class="container-fluid">
         <div class="row mt-4 status">
-            <h5>Status</h5>
+            <h5 class="disable-select">Status</h5>
             <div class="log">
                 <ul id="logger">
                 </ul>
