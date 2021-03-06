@@ -38,6 +38,10 @@ header div{
     cursor: pointer;
 }
 
+header .active {
+    color: black;
+}
+
 .page .form label{
     font-size: 0.8em;
     margin-top: 10px;

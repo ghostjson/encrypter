@@ -3,14 +3,19 @@ const pages = document.getElementsByClassName('page')
 const keyInput = document.getElementById('private_key')
 const logger = document.getElementById('logger')
 const encryptButton = document.getElementById('encryptButton')
+const pageButtons = document.getElementsByClassName('menu-button')
 let key = '';
 
 
 //show only specified page
 function showPage(name) {
 
-    if(name === 'dashboard'){
-
+    for (let i=0;i<3;i++){
+        if (pageButtons[i].id === `${name}-button`){
+            pageButtons[i].classList.add('active')
+        }else{
+            pageButtons[i].classList.remove('active')
+        }
     }
 
     for (let i=0;i<3;i++){

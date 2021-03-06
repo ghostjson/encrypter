@@ -8,11 +8,11 @@
 <body>
 <header>
 
-    <div onclick="showPage('dashboard')">Dashboard</div>
-    <div onclick="showPage('encrypt')">
+    <div class="menu-button active" id="dashboard-button" onclick="showPage('dashboard')">Dashboard</div>
+    <div class="menu-button" id="encrypt-button" onclick="showPage('encrypt')">
         Encrypt
     </div>
-    <div onclick="showPage('decrypt')">
+    <div class="menu-button" id="decrypt-button" onclick="showPage('decrypt')">
         Decrypt
     </div>
 </header>
@@ -27,7 +27,7 @@
                 <label>PRIVATE KEY</label>
                 <input id="private_key" class="form-control" disabled>
                 <div class="mt-2">
-                    <button class="btn btn-sm" onclick="loadKey()">Load</button>
+                    <button class="btn btn-sm " onclick="loadKey()">Load</button>
                     <button class="btn btn-sm" onclick="saveKey()">Save</button>
                     <button class="btn btn-sm" onclick="generateKey()">Generate</button>
                 </div>
