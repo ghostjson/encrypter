@@ -1,0 +1,9 @@
+Encrypt File
+    1) file upload
+    2) upload key
+    3) download encrypted file
+
+Decrypt File
+    1) file upload
+    2) upload key
+    3) download decrypted file

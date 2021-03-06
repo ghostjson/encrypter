@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>Encrypter</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="/eel.js"></script>
+</head>
+<body>
+<header>
+
+    <div onclick="showPage('dashboard')">Dashboard</div>
+    <div onclick="showPage('encrypt')">
+        Encrypt
+    </div>
+    <div onclick="showPage('decrypt')">
+        Decrypt
+    </div>
+</header>
+
+
+<!-- Page sections -->
+<!-- Dashboard -->
+<section class="page selection" id="dashboard">
+    <div class="container-fluid mt-3">
+        <div class="form">
+            <div class="form-group">
+                <label>PRIVATE KEY</label>
+                <input id="private_key" class="form-control" disabled>
+                <div class="mt-2">
+                    <button class="btn btn-sm" onclick="loadKey()">Load</button>
+                    <button class="btn btn-sm" onclick="saveKey()">Save</button>
+                    <button class="btn btn-sm" onclick="generateKey()">Generate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page" id="encrypt">
+
+    <form>
+        <h3>Encrypt</h3>
+    </form>
+</section>
+<section class="page" id="decrypt">
+    Decrypt
+</section>
+
+<script src="bootstrap.bundle.min.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>

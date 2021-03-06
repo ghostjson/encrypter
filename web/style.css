@@ -1,0 +1,59 @@
+:root{
+    --primary-color: #8e44ad
+}
+
+body{
+    margin: 0px;
+}
+
+section{
+    height: calc(100% - 40px);
+}
+
+.back-button{
+    display: none;
+}
+
+.page{
+    display: none;
+}
+
+.selection{
+    display: flex;
+}
+
+
+header{
+    background: var(--primary-color);
+    padding: 10px;
+    display: flex;
+    font-family: 'Arial';
+    font-weight: 600;
+    height: 40px;
+    color: white;
+}
+
+header div{
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.page .form label{
+    font-size: 0.8em;
+    margin-top: 10px;
+    font-family: 'Arial';
+    font-weight: bold;
+}
+
+.page .form .btn{
+    background: var(--primary-color);
+    color: white;
+}
+
+.page#selection{
+    flex-direction: column;
+}
+
+.page#encrypt{
+    flex-direction: column;
+}
