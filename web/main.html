@@ -38,13 +38,33 @@
 
 <section class="page" id="encrypt">
 
-    <form>
-        <h3>Encrypt</h3>
-    </form>
+    <div class="container-fluid">
+        <div class="form row">
+            <div class="row mt-2">
+                <h5>Encrypt</h5>
+                <div>
+                    <button class="btn btn-sm" onclick="upload()">Upload</button>
+                    <button class="btn btn-sm disabled" id="encryptButton" onclick="encrypt()">Encrypt</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </section>
 <section class="page" id="decrypt">
     Decrypt
 </section>
+
+<div class="container-fluid">
+        <div class="row mt-4 status">
+            <h5>Status</h5>
+            <div class="log">
+                <ul id="logger">
+                </ul>
+            </div>
+        </div>
+    </div>
 
 <script src="bootstrap.bundle.min.js"></script>
 <script src="main.js"></script>

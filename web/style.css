@@ -7,7 +7,7 @@ body{
 }
 
 section{
-    height: calc(100% - 40px);
+    height: 24%;
 }
 
 .back-button{
@@ -56,4 +56,20 @@ header div{
 
 .page#encrypt{
     flex-direction: column;
+}
+
+.status{
+    width: 100%;
+    height: 100px;
+    margin-left: 20px;
+}
+
+.status .log{
+    background: #e2e2e2;
+    margin-left: 10px;
+    height: calc(70vh - 100px);
+}
+
+.logger li{
+    margin-top: 20px;
 }

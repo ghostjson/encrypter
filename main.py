@@ -6,6 +6,7 @@ from tkinter import filedialog
 from cryptography.fernet import Fernet
 
 key = ''
+data = ''
 
 
 #
@@ -61,10 +62,61 @@ def loadKey():
     window.iconify()
     filepath = filedialog.askopenfilename()
 
-    file = open(filepath, 'rb')
-    key = file.read()
-    file.close()
-
-    window.destroy()
+    try:
+        file = open(filepath, 'rb')
+        key = file.read()
+        file.close()
+        window.destroy()
+    except FileNotFoundError:
+        window.destroy()
 
     return key.decode()
+
+
+# upload file to encrypt
+@eel.expose
+def upload():
+
+    global data
+
+    window = Tk()
+    window.iconify()
+    filepath = filedialog.askopenfilename()
+
+    try:
+        with open(filepath, 'rb') as f:
+            data = f.read()
+            window.destroy()
+            return True
+    except FileNotFoundError:
+        window.destroy()
+        return False
+
+
+# Encrypt current file
+@eel.expose
+def encrypted():
+
+    global key
+    global data
+
+    fernet = Fernet(key)
+    _encrypted = fernet.encrypt(data)
+
+    try:
+        window = Tk()
+        window.iconify()
+        filepath = filedialog.asksaveasfilename()
+
+        if filepath == '':
+            window.destroy()
+            return False
+
+        with open(filepath + '.encrypted', 'wb') as f:
+            f.write(_encrypted)
+
+        window.destroy()
+        return True
+    except FileNotFoundError:
+        window.destroy()
+        return False
