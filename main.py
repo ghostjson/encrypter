@@ -62,6 +62,31 @@ def decryptFile(path, save_file):
     return "Successfully decrypted file"
 
 
+# Export Keys
+@eel.expose
+def exportKeys(keyid):
+    keys = gpg.exportKeys(keyid)
+
+    path = saveFileDialog()
+
+    with open(path, 'w') as f:
+        f.write(keys)
+
+    return "Successfully export keys"
+
+
+# Import keys
+@eel.expose
+def importKey():
+
+    path = getFileDialog()
+
+    with open(path, 'r') as f:
+        gpg.importKeys(f.read())
+
+    return "Successfully import keys"
+
+
 # get file path
 @eel.expose
 def getFileDialog():

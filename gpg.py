@@ -54,7 +54,12 @@ class GPGEncrypt:
 
     # Export Keys
     def exportKeys(self, keyids):
-        public_keys = self.gpg.export_keys(keyids=keyids)
+        return self.gpg.export_keys(keyids=keyids)
+
+    # Import keys
+    def importKeys(self, data):
+        status = self.gpg.import_keys(data)
+        return str(status)
 
     # Return GPG Object
     def getGPGObject(self):
