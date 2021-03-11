@@ -48,6 +48,10 @@ class GPGEncrypt:
         decrypted_data = self.gpg.decrypt(data)
         return decrypted_data
 
+    # Decrypt from file
+    def decryptFile(self, file):
+        return self.gpg.decrypt_file(file)
+
     # Export Keys
     def exportKeys(self, keyids):
         public_keys = self.gpg.export_keys(keyids=keyids)

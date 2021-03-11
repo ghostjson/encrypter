@@ -1,11 +1,11 @@
 // list of all pages
 const pages = document.getElementsByClassName('page')
 const keyInput = document.getElementById('private_key')
-const logger = document.getElementById('logger')
 const encryptButton = document.getElementById('encryptButton')
 const decryptButton = document.getElementById('decryptButton')
 const pageButtons = document.getElementsByClassName('menu-button')
 const recipients_public_list = document.getElementById('recipients-public-list')
+const key_container = document.getElementById('key')
 
 let current_key = ''
 
@@ -15,33 +15,34 @@ function showPage(name) {
 
     console.log(pages)
 
-    for (let i=0;i<3;i++){
-        if (pageButtons[i].id === `${name}-button`){
+    for (let i = 0; i < 3; i++) {
+        if (pageButtons[i].id === `${name}-button`) {
             pageButtons[i].classList.add('active')
-        }else{
+        } else {
             pageButtons[i].classList.remove('active')
         }
     }
 
 
-    for (let i=0;i<pages.length;i++){
+    for (let i = 0; i < pages.length; i++) {
         console.log(pages[i].id)
-        if(pages[i].id === name){
+        if (pages[i].id === name) {
             console.log(pages[i])
             pages[i].style.display = 'flex'
-        }else{``
+        } else {
+            ``
             pages[i].style.display = 'none'
         }
     }
 }
 
-
-async function listPublicKeys(){
+// list all keys
+async function listPublicKeys() {
     console.log(eel.listPublicKeys())
 }
 
-
-async function generateKey(){
+// generate a new key
+async function generateKey() {
 
     let name = document.getElementById('name').value
     let password = document.getElementById('password').value
@@ -57,81 +58,58 @@ async function generateKey(){
     addLog('New key is generated')
 }
 
-async function saveKey(){
-    key = await eel.saveKey()();
 
-    addLog('Private key is saved.')
+// encrypt file
+async function encrypt(event) {
+    event.preventDefault()
+
+    let file_path = document.getElementById('file_path').value
+    let save_file_path = document.getElementById('save_file_path').value
+    let key = document.getElementById('key').value
+
+    let status = await eel.encryptFile(file_path, key, save_file_path)();
+    addLog(status)
 }
 
-async function loadKey(){
-    key = await eel.loadKey()();
 
-    if(keyInput.value !== key){
-        keyInput.value = key
-        addLog('New private key is loaded, please save it to use.')
-    }
+// decrypt file function
+async function decrypt(event) {
+    event.preventDefault()
 
-}
+    let file_path = document.getElementById('file_path_decrypt').value
+    let save_file_path = document.getElementById('save_file_path_decrypt').value
+    let status = await eel.decryptFile(file_path, save_file_path)();
 
-async function upload(){
-    let uploaded = await eel.upload()();
-    if(uploaded){
-        addLog('File is uploaded for encryption, click encrypt to encrypt.')
 
-        encryptButton.classList.remove('disabled')
-    }
-}
-
-async function encrypt(event){ event.preventDefault()
-
-    let file_path = document.getElementById('file_path')
-
-    console.log(file_path)
-    // let key = document.getElementById('key').value
-    //
-    // let status = await eel.encryptFile(file_path, key)();
-    // console.log(status)
-    // if(status){
-    //     addLog('File is encrypted successfully')
-    // }
-}
-
-async function uploadDecrypt(){
-    let uploaded = await eel.uploadDecrypted()();
-    if(uploaded){
-        addLog('File is uploaded for encryption, click encrypt to encrypt.')
-
-        decryptButton.classList.remove('disabled')
-    }
-}
-
-async function decrypt(){
-    let status = await eel.decrypted()();
-    if(status){
-        addLog('File is decrypted successfully')
-        decryptButton.classList.add('disabled')
-    }
+    addLog(status)
 }
 
 
 //initial connect with backend
 async function run() {
 
-   let public_keys = await eel.listPublicKeys()();
+    // fetch keys
+    let public_keys = await eel.listPublicKeys()();
 
+    // add data to keys table in dashboard
+    recipients_public_list.innerText = ''
 
-   recipients_public_list.innerText = ''
+    // add fingerprints to encrypt page
+    key_container.innerHTML = ''
 
-   public_keys.forEach((recipient) => {
-       recipients_public_list.innerHTML += `<tr>
+    public_keys.forEach((recipient) => {
+
+        recipients_public_list.innerHTML += `<tr>
                 <th scope="row">${recipient['keyid']}</th>
                 <td>${recipient['uids'][0].slice(19, -1)}</td>
                 <td>${recipient['fingerprint']}</td>
                <td style="cursor: pointer" onclick="showPage('deleteKey'); current_key='${recipient['fingerprint']}'">x</td> 
             </tr>`;
-   })
 
-// <td style="cursor: pointer" onclick="deleteKey('${recipient['fingerprint']}')">x</td>
+        key_container.innerHTML += `
+            <option value="${recipient['fingerprint']}">${recipient['uids'][0].slice(19, -1)} - ${recipient['fingerprint']}</option>
+        `;
+    })
 
 
 }
@@ -141,10 +119,13 @@ async function deleteKey(fingerprint, password) {
     let status = await eel.deleteKey(fingerprint, password)()
     console.log(status)
 
+
     run()
 }
 
-function deleteSubmit(event) { event.preventDefault();
+// delete submit function
+function deleteSubmit(event) {
+    event.preventDefault();
     let password = document.getElementById('confirm_password').value
 
     showPage('dashboard')
@@ -154,20 +135,39 @@ function deleteSubmit(event) { event.preventDefault();
     return false;
 }
 
-
-function addLog(msg){
-    logger.innerHTML += `<li>${msg}</li>`
-}
-
-function addLog(content){
+// add notification
+function addLog(content) {
     document.getElementById('notification').style.display = 'block'
     document.getElementById('notification-content').innerText = content
 
     setTimeout(() => closeNotification(), 5000)
 }
 
-function closeNotification(){
+// close notification
+function closeNotification() {
     document.getElementById('notification').style.display = 'none'
+}
+
+// select file
+async function selectFile() {
+    return await eel.getFileDialog()()
+}
+
+function openFileAt(id) {
+    selectFile().then(path => {
+        document.getElementById(id).value = path
+    })
+}
+
+async function saveFile() {
+    let path = await eel.saveFileDialog()()
+    return path
+}
+
+function saveFileAt(id) {
+    saveFile().then(path => {
+        document.getElementById(id).value = path
+    })
 }
 
 window.onload = () => run()

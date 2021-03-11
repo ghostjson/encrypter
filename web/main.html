@@ -25,7 +25,7 @@
 
 <!-- Page sections -->
 <!-- Dashboard -->
-<section class="page" id="dashboard">
+<section class="page selection" id="dashboard">
     <div class="container-fluid mt-3">
 
         <!--   Public Listing Table    -->
@@ -100,18 +100,26 @@
 <!-- End delete key page -->
 
 <!-- Encryption Page -->
-<section class="page selection" id="encrypt">
+<section class="page " id="encrypt">
     <div class="container-fluid mt-3">
         <h4>Encrypt</h4>
         <form>
 
             <div class="form-group">
                 <label for="file_path">File Path</label>
-                <input type="file" class="form-control" name="file_path" id="file_path" required>
+                <input type="text" class="form-control" name="file_path" id="file_path" required>
+                <a href="#" onclick="openFileAt('file_path')">Browse</a>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label for="key">Key</label>
-                <input type="text" class="form-control" name="key" id="key" required>
+                <select class="form-control" id="key" name="key" required>
+
+                </select>
+            </div>
+            <div class="form-group mt-2">
+                <label for="save_file_path">Save Path</label>
+                <input type="text" class="form-control" name="file_path" id="save_file_path" required>
+                <a href="#" onclick="saveFileAt('save_file_path')">Browse</a>
             </div>
             <div class="form-group mt-3">
                 <button class="btn btn-sm" onclick="encrypt(event)">Encrypt</button>
@@ -121,15 +129,29 @@
 </section>
 <!-- End Encryption Page -->
 
-<!--<div class="container-fluid">-->
-<!--    <div class="row mt-4 status">-->
-<!--        <h5 class="disable-select">Status</h5>-->
-<!--        <div class="log">-->
-<!--            <ul id="logger">-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+<!-- Decryption Page -->
+<section class="page" id="decrypt">
+    <div class="container-fluid mt-3">
+        <h4>Decrypt</h4>
+        <form>
+
+            <div class="form-group">
+                <label for="file_path_decrypt">File Path</label>
+                <input type="text" class="form-control" name="file_path_decrypt" id="file_path_decrypt" required>
+                <a href="#" onclick="openFileAt('file_path_decrypt')">Browse</a>
+            </div>
+            <div class="form-group mt-2">
+                <label for="save_file_path_decrypt">Save Path</label>
+                <input type="text" class="form-control" name="file_path_decrypt" id="save_file_path_decrypt" required>
+                <a href="#" onclick="saveFileAt('save_file_path_decrypt')">Browse</a>
+            </div>
+            <div class="form-group mt-3">
+                <button class="btn btn-sm" onclick="decrypt(event)">Decrypt</button>
+            </div>
+        </form>
+    </div>
+</section>
+
 
 <script src="bootstrap.bundle.min.js"></script>
 <script src="main.js"></script>
