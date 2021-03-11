@@ -3,6 +3,11 @@
 ### Screenshot
 ![Encrypter Image](screenshot/screenshot.png) 
 
+### Build File
+Execute ```build.bat``` batch file.
+
+### Download for windows
+[download link](https://drive.google.com/file/d/1FsD1YNCcZzbrgtr71nXqp8QEI2ra1xo6/view?usp=sharing)
 
 ### Tech Stack Used
 - [python3](https://www.python.org/downloads/)

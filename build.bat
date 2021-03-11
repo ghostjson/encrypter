@@ -1,8 +1,8 @@
-Rem python -m eel main.py web --noconsole --onefile
+python -m eel main.py web --noconsole --onefile
 
 
-Rem xcopy /e /v gpg dist\gpg
+xcopy /e /v gpg dist\gpg
 
-Rem mkdir dist\keys
+mkdir dist\keys
 
 del /S build
