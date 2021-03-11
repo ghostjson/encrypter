@@ -1,8 +1,5 @@
 // list of all pages
 const pages = document.getElementsByClassName('page')
-const keyInput = document.getElementById('private_key')
-const encryptButton = document.getElementById('encryptButton')
-const decryptButton = document.getElementById('decryptButton')
 const pageButtons = document.getElementsByClassName('menu-button')
 const recipients_public_list = document.getElementById('recipients-public-list')
 const key_container = document.getElementById('key')
@@ -11,9 +8,6 @@ let current_key = ''
 
 //show only specified page
 function showPage(name) {
-
-
-    console.log(pages)
 
     for (let i = 0; i < 3; i++) {
         if (pageButtons[i].id === `${name}-button`) {
@@ -36,10 +30,6 @@ function showPage(name) {
     }
 }
 
-// list all keys
-async function listPublicKeys() {
-    console.log(eel.listPublicKeys())
-}
 
 // generate a new key
 async function generateKey() {
@@ -49,12 +39,9 @@ async function generateKey() {
 
 
     let status = await eel.generateKey(name, password)();
-    console.log(status)
-
     showPage('dashboard')
 
     await run()
-
     addLog('New key is generated')
 }
 
@@ -80,16 +67,17 @@ async function decrypt(event) {
     let save_file_path = document.getElementById('save_file_path_decrypt').value
     let status = await eel.decryptFile(file_path, save_file_path)();
 
-
     addLog(status)
 }
 
+// export key to file
 async function exportKey(content){
     let status = await eel.exportKeys(content)()
 
     addLog(status)
 }
 
+// import key from file
 async function importKey(){
     let status = await eel.importKey()()
     run()
@@ -133,9 +121,6 @@ async function run() {
 // Delete a key
 async function deleteKey(fingerprint, password) {
     let status = await eel.deleteKey(fingerprint, password)()
-    console.log(status)
-
-
     run()
 }
 
@@ -169,21 +154,25 @@ async function selectFile() {
     return await eel.getFileDialog()()
 }
 
+// open file and set file path at id
 function openFileAt(id) {
     selectFile().then(path => {
         document.getElementById(id).value = path
     })
 }
 
+// open save file dialog
 async function saveFile() {
     let path = await eel.saveFileDialog()()
     return path
 }
 
+// save file path at id
 function saveFileAt(id) {
     saveFile().then(path => {
         document.getElementById(id).value = path
     })
 }
 
+// onload
 window.onload = () => run()
