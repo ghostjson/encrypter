@@ -1,3 +1,2 @@
 Eel~=0.14.0
-
-cryptography~=3.4.6
+python-gnupg~=0.4.6

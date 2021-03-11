@@ -1,173 +1,48 @@
 import eel
 
-from tkinter import *
-from tkinter import filedialog
+from gpg import GPGEncrypt
 
-from cryptography.fernet import Fernet
+# interface
 
-import base64
-
-key = ''
-data = ''
+gpg = GPGEncrypt()
 
 
-#
-#
-#
-# message = "hello world"
-# encoded = message.encode()
-#
-# f = Fernet(key)
-# encrypted = f.encrypt(encoded)
-#
-# print(encrypted)
-#
-# f2 = Fernet(key)
-# decrypted = f2.decrypt(encrypted)
-# print(decrypted.decode())
-
-# get key from file
+# List public keys
 @eel.expose
-def getKey():
-    global key
-    file = open('key.key', 'rb')
-    key = file.read()
-    file.close()
-    return key.decode()
+def listPublicKeys():
+    return gpg.listPublicKeys()
 
 
-# generate a new key
+# List private keys
 @eel.expose
-def generateKey():
-    global key
-    key = Fernet.generate_key()
-    return key.decode()
+def listPrivateKeys():
+    return gpg.listPrivateKeys()
 
 
-# save current key to file
+# Delete public keys
 @eel.expose
-def saveKey():
-    global key
-    print(key)
-    file = open('key.key', 'wb')
-    file.write(key)
-    file.close()
+def deleteKey(fingerprint, password):
+    return gpg.deleteKey(fingerprint, password)
 
 
-# load a key from specified file
+# Generate key
 @eel.expose
-def loadKey():
-    global key
-
-    window = Tk()
-    window.iconify()
-    filepath = filedialog.askopenfilename()
-
-    try:
-        file = open(filepath, 'rb')
-        key = file.read()
-        file.close()
-        window.destroy()
-    except FileNotFoundError:
-        window.destroy()
-
-    return key.decode()
+def generateKey(name, password):
+    return gpg.generateKey(name, password)
 
 
-# upload file to encrypt
+# Encrypt File
 @eel.expose
-def upload():
-    global data
-
-    window = Tk()
-    window.iconify()
-    filepath = filedialog.askopenfilename()
-
-    try:
-        with open(filepath, 'rb') as f:
-            data = f.read()
-            window.destroy()
-
-            # encode in base64
-            data = base64.b64encode(data)
-            return True
-    except FileNotFoundError:
-        window.destroy()
-        return False
+def encryptFile(path, recipient):
+    with open(path, 'rb') as f:
+        return str(gpg.encryptFile(f, recipient))
 
 
-# upload file to decrypt
 @eel.expose
-def uploadDecrypted():
-    global data
-
-    window = Tk()
-    window.iconify()
-    filepath = filedialog.askopenfilename()
-
-    try:
-        with open(filepath, 'rb') as f:
-            data = f.read()
-            window.destroy()
-
-            return True
-    except FileNotFoundError:
-        window.destroy()
-        return False
+def getFileDialog():
 
 
-# Encrypt current file
-@eel.expose
-def encrypted():
-    global key
-    global data
 
-    fernet = Fernet(key)
-    _encrypted = fernet.encrypt(data)
-
-    try:
-        window = Tk()
-        window.iconify()
-        filepath = filedialog.asksaveasfilename()
-
-        if filepath == '':
-            window.destroy()
-            return False
-
-        with open(filepath + '.encrypted', 'wb') as f:
-            f.write(_encrypted)
-
-        window.destroy()
-        return True
-    except FileNotFoundError:
-        window.destroy()
-        return False
-
-
-# decrypt file
-@eel.expose
-def decrypted():
-    global key
-    global data
-
-    content = Fernet(key)
-    _decrypted = content.decrypt(data)
-    decoded_data = base64.b64decode(_decrypted.decode())
-
-    try:
-        window = Tk()
-        window.iconify()
-        filepath = filedialog.asksaveasfilename()
-
-        if filepath == '':
-            window.destroy()
-            return False
-
-        with open(filepath, 'wb') as f:
-            f.write(decoded_data)
-
-        window.destroy()
-        return True
-    except FileNotFoundError:
-        window.destroy()
-        return False
+# eel initial
+eel.init('web')
+eel.start('main.html', port=0, size=(900, 500))
